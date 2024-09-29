@@ -1,8 +1,7 @@
 import requests
 import allure
 
-from data import Order, Response
-from tests.url_api import Api
+from data import Order, Response, Api
 
 
 class TestCreateOrder:
@@ -15,12 +14,11 @@ class TestCreateOrder:
                                               headers = {'Authorization': create_response_json['accessToken']})
         response_json = response.json()
 
-        assert (response.status_code == 200
-                and response_json.get('success') is True
-                and 'name' in response_json != ""
-                and 'order' in response_json
-                and 'number' in response_json['order'] != ""), \
-                f'Ожидался статус-код 200, но получили статус-код {response.status_code} и JSON {response_json}'
+        assert response.status_code == 200, print(response.status_code)
+        assert response_json.get('success') is True, print(response_json)
+        assert 'name' in response_json != "", print(response_json)
+        assert 'order' in response_json, print(response_json)
+        assert 'number' in response_json['order'] != "", print(response_json)
 
 
     @allure.title('Создание заказа с ингредиентами пользователем, без указания токена авторизации')
@@ -31,12 +29,11 @@ class TestCreateOrder:
         response = requests.post(Api.BASE_URL + Api.ORDER_CREATE, data=Order.INGREDIENTS)
         response_json = response.json()
 
-        assert (response.status_code == 200
-                and response_json.get('success') is True
-                and 'name' in response_json != ""
-                and 'order' in response_json
-                and 'number' in response_json['order'] != ""), \
-            f'Ожидался статус-код 200, но получили статус-код {response.status_code} и JSON {response_json}'
+        assert response.status_code == 200, print(response.status_code)
+        assert response_json.get('success') is True, print(response_json)
+        assert 'name' in response_json != "", print(response_json)
+        assert 'order' in response_json, print(response_json)
+        assert 'number' in response_json['order'] != "", print(response_json)
 
 
     @allure.title('Создание заказа без ингредиентов авторизованным пользователем')

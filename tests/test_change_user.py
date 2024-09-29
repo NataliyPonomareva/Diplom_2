@@ -2,8 +2,7 @@ import allure
 import requests
 import pytest
 
-from data import User, Response
-from tests.url_api import Api
+from data import User, Response, Api
 
 
 class TestChangeUser:
@@ -15,11 +14,10 @@ class TestChangeUser:
         response = requests.patch(Api.BASE_URL + Api.USER_AUTH, headers={'Authorization': create_response_json['accessToken']}, json=User.USER_UPDATED_EMAIL)
         response_json = response.json()
 
-        assert (response.status_code == 200
-                and response_json.get('success') is True
-                and response_json['user']['email'] == User.USER_UPDATED_EMAIL['email']
-                and response_json['user']['name'] == create_response_json['user']['name']), \
-            f'Ожидался статус-код 200, но получили статус-код {response.status_code} и JSON {response_json}'
+        assert response.status_code == 200, print(response.status_code)
+        assert response_json.get('success') is True, print(response_json)
+        assert response_json['user']['email'] == User.USER_UPDATED_EMAIL['email'], print(response_json)
+        assert response_json['user']['name'] == create_response_json['user']['name'], print(response_json)
 
     @allure.title('Изменение name пользователя с авторизацией')
     def test_change_name_authorized_user(self, create_user_and_delete):
@@ -29,11 +27,10 @@ class TestChangeUser:
         response = requests.patch(Api.BASE_URL + Api.USER_AUTH, headers={'Authorization': create_response_json['accessToken']}, json=User.USER_UPDATED_NAME)
         response_json = response.json()
 
-        assert (response.status_code == 200
-                and response_json.get('success') is True
-                and response_json['user']['email'] == create_response_json['user']['email']
-                and response_json['user']['name'] == User.USER_UPDATED_NAME['name']), \
-            f'Ожидался статус-код 200, но получили статус-код {response.status_code} и JSON {response_json}'
+        assert response.status_code == 200, print(response.status_code)
+        assert response_json.get('success') is True, print(response_json)
+        assert response_json['user']['email'] == create_response_json['user']['email'], print(response_json)
+        assert response_json['user']['name'] == User.USER_UPDATED_NAME['name'], print(response_json)
 
     @allure.title('Изменение password пользователя с авторизацией')
     def test_change_password_authorized_user(self, create_user_and_delete):
@@ -43,11 +40,10 @@ class TestChangeUser:
         response = requests.patch(Api.BASE_URL + Api.USER_AUTH, headers={'Authorization': create_response_json['accessToken']}, json=User.USER_UPDATED_PASSWORD)
         response_json = response.json()
 
-        assert (response.status_code == 200
-                and response_json.get('success') is True
-                and response_json['user']['email'] == create_response_json['user']['email']
-                and response_json['user']['name'] == create_response_json['user']['name']), \
-            f'Ожидался статус-код 200, но получили статус-код {response.status_code} и JSON {response_json}'
+        assert response.status_code == 200, print(response.status_code)
+        assert response_json.get('success') is True, print(response_json)
+        assert response_json['user']['email'] == create_response_json['user']['email'], print(response_json)
+        assert response_json['user']['name'] == create_response_json['user']['name'], print(response_json)
 
     @allure.title('Изменение email пользователя с авторизацией')
     @pytest.mark.parametrize('change_required_fields',

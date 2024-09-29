@@ -2,21 +2,20 @@ import allure
 import requests
 import pytest
 
-from data import User, Response
-from tests.url_api import Api
+from data import User, Response, Api
+
 
 
 class TestCreateUser:
     @allure.title('Можно создать уникального пользователя')
     def test_create_unique_user(self, create_user_and_delete):
         create_response, create_response_json = create_user_and_delete
-        assert (create_response.status_code == 200
-                 and create_response_json.get('success') is True
-                 and 'accessToken' in create_response_json != ""
-                 and 'refreshToken' in create_response_json != ""
-                 and create_response_json['user']['email'] == User.USER_CREATE ['email']
-                 and create_response_json['user']['name'] == User.USER_CREATE ['name']), \
-                f'Ожидался статус-код 200, но получили статус-код {create_response_json.status_code} и JSON {create_response_json}'
+        assert create_response.status_code == 200, print(create_response.status_code)
+        assert create_response_json.get('success') is True, print(create_response_json)
+        assert 'accessToken' in create_response_json != "", print(create_response_json)
+        assert 'refreshToken' in create_response_json != "", print(create_response_json)
+        assert create_response_json['user']['email'] == User.USER_CREATE ['email'], print(create_response_json)
+        assert create_response_json['user']['name'] == User.USER_CREATE ['name'], print(create_response_json)
 
 
     @allure.title('Нельзя создать пользователя, который уже зарегистрирован')
